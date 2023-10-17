@@ -1,4 +1,5 @@
 import React from 'react';
+import items from './items.json';
 
 const Item = ({name,quantity,category} ) => {
     return (
