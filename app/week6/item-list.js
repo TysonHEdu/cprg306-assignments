@@ -1,13 +1,15 @@
 "use client"
 
-import React, { useState } from 'react';
+import React from 'react';
 import Item from './item';
-import items from './items.json';
+import { useState } from 'react';
 
-export default function ItemList() {
+export default function ItemList({ items }) {
+  // create a copy of the items prop
+  const itemsCopy = [...items];
+
   // map JSON data to an array
-  let itemsArray = items.map((items) => ({ ...items }));
-
+  let itemsArray = itemsCopy.map((items) => ({ ...items }));
 
   // set up states for sorting
   let [sortBy, setSortBy] = useState('name');
@@ -29,7 +31,7 @@ export default function ItemList() {
        return a[sortBy] - b[sortBy]; 
       }
     }
-);
+  );
 
   return (
     <div>
@@ -52,10 +54,11 @@ export default function ItemList() {
 
       <section className="grid grid-cols-3 gap-5 p-5">
         {itemsArray.map((item) => (
-          <Item key={item.id} items={item}/>
+          <Item items={item}/>
         ))}
       </section>
 
     </div>
   )
 }
+  
