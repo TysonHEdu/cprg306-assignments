@@ -1,64 +1,33 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
 import Item from './item';
-import { useState } from 'react';
+import items from './items.json';
 
-export default function ItemList({ items }) {
-  // create a copy of the items prop
-  const itemsCopy = [...items];
+const ItemList = () => { 
+  const [sortBy, setSortBy] = useState('name');
 
-  // map JSON data to an array
-  let itemsArray = itemsCopy.map((items) => ({ ...items }));
-
-  // set up states for sorting
-  let [sortBy, setSortBy] = useState('name');
-
-  //Sort function
-  itemsArray = itemsArray.sort((a, b) => {
-    if (isNaN(parseInt(a[sortBy]))) {
-      // sort alphabetically
-      let nameA = a[sortBy].toUpperCase();
-      let nameB = b[sortBy].toUpperCase();
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1
-      }
-      return 0;
-    }  else {
-       return a[sortBy] - b[sortBy]; 
-      }
+  const sortedItems = items.sort((a, b) => {
+    if (sortBy === 'name') {
+      return a.name.localeCompare(b.name);
+    } else if (sortBy === 'category') {
+      return a.category.localeCompare(b.category);
     }
-  );
+  });
 
   return (
     <div>
-      
-      <h2 className="text-4xl text-center p-5"> Shopping List</h2>
-
-      <div className="flex pl-10 pt-5 pb-5 pr-10 bg-gray-800">
-
-        <div className="flex-1">
-          <label>Sort by: </label>
-          <select onChange={(e) => setSortBy(e.target.value)}>
-          <option value="id">ID</option>
-          <option value="name">Name</option>
-          <option value="quantity">Quantity</option>
-          <option value="category">Category</option>  
-          </select>
-        </div>
-
-      </div>
-
-      <section className="grid grid-cols-3 gap-5 p-5">
-        {itemsArray.map((item) => (
-          <Item items={item}/>
+      <h2 className="text-xl mb-4">Item List</h2>
+      <button onClick={() => setSortBy('name')}>Sort by Name</button>
+      <br/>
+      <button onClick={() => setSortBy('category')}>Sort by Category</button>
+      <ul>
+        {sortedItems.map((item) => (
+          <Item key={item.id} name={item.name} quantity={item.quantity} category={item.category} />
         ))}
-      </section>
-
+      </ul>
     </div>
-  )
-}
-  
+  );
+};
+
+export default ItemList;

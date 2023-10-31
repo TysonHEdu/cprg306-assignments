@@ -1,13 +1,13 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
-/*
-function mealIdeas(props) {
+
+function MealIdeas() {
     const [meals, setMeals] = useState([]);
 
-    return (
-        // your JSX code here
-    );
+
 }
-*/
-export default mealIdeas;
+
+export default MealIdeas;
+
+
